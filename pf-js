@@ -1,0 +1,26 @@
+const express = require('express');
+const fs = require('fs');
+
+const app = express();
+const dataFilePath = 'C:/Users/Sankhar/Downloads/data.json'; // the file path to your data file
+
+app.get('/data', (req, res) => {
+  fs.readFile(dataFilePath, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error getting data');
+    }
+    try {
+      const jsonData = JSON.parse(data);
+      console.log(jsonData.loginid);
+      console.log(jsonData.password)
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send('Error parsing data');
+    }
+  });
+});
+
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
